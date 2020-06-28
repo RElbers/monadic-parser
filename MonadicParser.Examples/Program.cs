@@ -33,7 +33,7 @@ namespace MonadicParser.Examples
             var tokenArray = tokens.ToArray();
             Console.WriteLine($"Input was tokenized to: [{string.Join(", ", tokenArray)}]");
             
-            var parser = ExpressionParser.InfixParser();
+            var parser = ExpressionParser.GetExpressionParser();
             var result = parser.Run(tokenArray);
 
             // Evaluate expression

@@ -4,8 +4,15 @@ using System.Collections.Generic;
 namespace MonadicParser.Parsing
 {
     public abstract class Result<T>
-    {
+    {    
+        /// <summary>
+        /// Is true only if this class is an instance of Ok.
+        /// </summary>
         public abstract bool HasValue { get; }
+        
+        /// <summary>
+        /// Implicitly lift a value to a Result. 
+        /// </summary>
         public static implicit operator Result<T>(T value) => new Ok<T>(value);
     }
 

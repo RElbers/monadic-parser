@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 // ReSharper disable InconsistentNaming
 
 namespace MonadicParser.Parsing
@@ -17,12 +18,12 @@ namespace MonadicParser.Parsing
         }
 
         /// <summary>
-        /// Applies the parser to the tokens. Also returns the state remaining after parsing.
+        /// Applies the parser to the tokens. 
         /// </summary>
         public Result<(T, State<Token>)> Parse(State<Token> state) => _parse(state);
 
         /// <summary>
-        /// Applies the parser to the tokens.
+        /// Applies the parser to the tokens. Returns just the result and 'forgets' the remaining state. 
         /// </summary>
         public Result<T> Run(IList<Token> tokens)
         {
@@ -37,7 +38,6 @@ namespace MonadicParser.Parsing
             };
         }
 
-        public static implicit operator Parser<T, Token>(T value) => Parser.Lift<T, Token>(value);
         public static Parser<T, Token> operator +(Parser<T, Token> l, Parser<T, Token> r) => l.Or(r);
     }
 
@@ -67,21 +67,19 @@ namespace MonadicParser.Parsing
         ///    Apply a function to a <c>Parser</c> to change the value of a successful parse. 
         /// </summary>
         public static Parser<T2, Token> Select<T1, T2, Token>(this Parser<T1, Token> parser, Func<T1, T2> map)
-            => new Parser<T2, Token>(
-                state1 =>
-                    from x in parser.Parse(state1)
-                    select (map(x.Item1), x.Item2));
+            => new Parser<T2, Token>(state1 =>
+                from x in parser.Parse(state1)
+                select (map(x.Item1), x.Item2));
 
 
         /// <summary>
         ///    Perform a sequence of parsers and apply a function to the final result. 
         /// </summary>
         public static Parser<T3, Token> SelectMany<T1, T2, T3, Token>(this Parser<T1, Token> parser, Func<T1, Parser<T2, Token>> then, Func<T1, T2, T3> map)
-            => new Parser<T3, Token>(
-                state1 =>
-                    from x in parser.Parse(state1)
-                    from y in then(x.Item1).Parse(x.Item2)
-                    select (map(x.Item1, y.Item1), y.Item2));
+            => new Parser<T3, Token>(state1 =>
+                from x in parser.Parse(state1)
+                from y in then(x.Item1).Parse(x.Item2)
+                select (map(x.Item1, y.Item1), y.Item2));
 
 
         /// <summary>
@@ -89,25 +87,14 @@ namespace MonadicParser.Parsing
         ///    Succeeds only if the predicate applied to the result of the <c>Parser</c> evaluates to true. 
         /// </summary>
         public static Parser<T1, Token> Where<T1, Token>(this Parser<T1, Token> parser, Func<T1, bool> predicate)
-            => new Parser<T1, Token>(
-                state1 =>
-                    from x in parser.Parse(state1)
-                    where predicate(x.Item1)
-                    select x);
+            => new Parser<T1, Token>(state1 =>
+                from x in parser.Parse(state1)
+                where predicate(x.Item1)
+                select x);
 
         #endregion
 
         #region static
-
-        /// <summary>
-        ///   Yields the next token.  
-        /// </summary>
-        public static Parser<Token, Token> Next<Token>()
-            => new Parser<Token, Token>(state =>
-            {
-                var token = state.Consume();
-                return (token, state);
-            });
 
         /// <summary>
         ///   Parser combinator for sums.
@@ -129,6 +116,16 @@ namespace MonadicParser.Parsing
         /// </summary>
         public static Parser<T1, Token> Lift<T1, Token>(T1 thing) => new Parser<T1, Token>(state => (thing, state));
 
+        /// <summary>
+        ///   Yields the next token.  
+        /// </summary>
+        public static Parser<Token, Token> Next<Token>()
+            => new Parser<Token, Token>(state =>
+            {
+                var token = state.Consume();
+                return (token, state);
+            });
+        
         /// <summary>
         ///    Parser for a specific token.
         /// </summary>
@@ -249,7 +246,7 @@ namespace MonadicParser.Parsing
             => new Parser<T1?, Token>(state =>
             {
                 var x = parser.Parse(state);
-                
+
                 if (x.HasValue)
                     return x!;
                 return (null, state);

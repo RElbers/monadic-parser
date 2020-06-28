@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonadicParser", "MonadicParser\MonadicParser.csproj", "{7E48D513-C776-4552-B472-6FDE3BD7DB95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonadicParser.Tests", "MonadicParser.Tests\MonadicParser.Tests.csproj", "{BA444DB8-F12F-415B-A227-57636553FF1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonadicParser.Examples", "MonadicParser.Examples\MonadicParser.Examples.csproj", "{A2DA1E6C-C137-4A33-81AC-23896292B243}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E48D513-C776-4552-B472-6FDE3BD7DB95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E48D513-C776-4552-B472-6FDE3BD7DB95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA444DB8-F12F-415B-A227-57636553FF1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA444DB8-F12F-415B-A227-57636553FF1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA444DB8-F12F-415B-A227-57636553FF1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA444DB8-F12F-415B-A227-57636553FF1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2DA1E6C-C137-4A33-81AC-23896292B243}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2DA1E6C-C137-4A33-81AC-23896292B243}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2DA1E6C-C137-4A33-81AC-23896292B243}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2DA1E6C-C137-4A33-81AC-23896292B243}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

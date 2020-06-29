@@ -66,7 +66,15 @@ public struct State<T>
 ## `Parser<T, Token>`
 Finally, there is the  actual `Parser<T, Token>` class, which has 2 generic arguments. The first represents the type of the result which parser returns, the second represents the type for the tokens. 
 
-A parser for things is a function from strings to lists of pairs of things and strings. Or more specifically for our case, a `Parser` for `T`'s is a function from a `State<Token>` to a `Result` of a pair of `T` and `State<Token>`.
+
+> A Parser for Things<br>
+is a function from Strings<br>
+to Lists of Pairs<br>
+of Things and Strings!
+
+ \- Fritz Ruehr 
+
+Or more specifically for our case, a `Parser` for `T`'s is a function from a `State<Token>` to a `Result` of a pair of `T` and `State<Token>`.
 Let's break that down a bit. A parser takes a `State<Token>`, which contains the index for at which `Token` we start parsing. And it returns a pair of `T`, which is the thing that has been parsed, and `State<Token>`, which is the state remaining after parsing. The pair `(T, State<Token>)` is wrapped in a `Result`, because the parsing might fail.
  
 We will be defining parser combinators, which are functions which take one or more parsers and returns another parser. Because a parser is really just a function, we will be using an attribute to represent the parser which is initialized in the constructor. Parsers can thus be created by passing a lambda expression to constructor.    
@@ -111,7 +119,7 @@ public class Parser<T, Token>
 
 Most of the functionality of the Parser is done in extension methods in the static Parser class. As parsers also describe a monad, we can define `Select`, `SelectMany` for parsers. And since we also implemented these functions for `Result<T>`, implementing them for parsers is quite straight forward.
 
-```
+```csharp
 public static Parser<T2, Token> Select<T1, T2, Token>(this Parser<T1, Token> parser, Func<T1, T2> map)
 	=> new Parser<T2, Token>(state1 =>
 		from x in parser.Parse(state1)

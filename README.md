@@ -42,7 +42,7 @@ public abstract class Fail<T> : Result<T>
 ```
 
 ## `State<T>`
-Then, we have struct representing the current state of a parser, State<T>. It contains the list of tokens and an index pointing to the current token. It comes with a method for consuming a token, which returns the current token and increments the index. It is a struct because we need call-by-value semantics for the index.
+Then, we have struct representing the current state of a parser, `State<T>`. It contains the list of tokens and an index pointing to the current token. It comes with a method for consuming a token, which returns the current token and increments the index. It is a struct because we need call-by-value semantics for the index.
 
 ```csharp
 public struct State<T>

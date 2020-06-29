@@ -1,11 +1,11 @@
 # Monadic parsing using LINQ in C#.
-Language-Integrated Query (LINQ) is a language feature of C# which enables one to generate SQL statements in C# by writing LINQ statements. LINQ can be extended to work for user defined types by implementing several methods, namely `Select` and `SelectMany`. `Select` is equal to the `map : (T1 -> T2) -> F<T1> -> F<T2>` operator for the functor `F`.
+Language-Integrated Query (LINQ) is a language feature of C# which enables one to generate SQL statements in C# by writing LINQ statements. LINQ can be extended to work for user defined types by implementing several methods, namely `Select` and `SelectMany`. `Select` is equivalent to the `map : (T1 -> T2) -> F<T1> -> F<T2>` operator for the functor `F`.
 
 ```csharp
 public static F<T2> Select<T1, T2>(this F<T1> x, Func<T1, T2> map);
 ```
 
-`SelectMany` is equal to `bind : F<T1> -> (T1 -> F<T2>) -> F<T2>` followed by another function applied to the results `T1` and `T2`. 
+`SelectMany` is equivalent to `bind : F<T1> -> (T1 -> F<T2>) -> F<T2>` followed by another function applied to the results `T1` and `T2`. 
 ```csharp
  public static F<T3> SelectMany<T1, T2, T3>(this F<T1> x, Func<T1, F<T2>> then, Func<T1, T2, T3> map);
 ```

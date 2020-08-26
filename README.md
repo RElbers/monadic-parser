@@ -1,16 +1,41 @@
 # Monadic parsing using LINQ in C#.
-Language-Integrated Query (LINQ) is a language feature of C# which enables one to generate SQL statements in C# by writing LINQ statements. LINQ can be extended to work for user defined types by implementing several methods, namely `Select` and `SelectMany`. `Select` is equivalent to the `map : (T1 -> T2) -> F<T1> -> F<T2>` operator for the functor `F`.
+Language-Integrated Query (LINQ) is a language feature of C# which enables one to generate SQL statements in C# by writing LINQ statements. LINQ can be extended to work for user defined types by implementing several methods, namely `Select` and `SelectMany`. `Select` is equal to the `map : (T1 -> T2) -> F<T1> -> F<T2>` operator for the functor `F`.
 
 ```csharp
 public static F<T2> Select<T1, T2>(this F<T1> x, Func<T1, T2> map);
 ```
 
-`SelectMany` is equivalent to `bind : F<T1> -> (T1 -> F<T2>) -> F<T2>` followed by another function applied to the results `T1` and `T2`. 
+`SelectMany` is equal to `bind : F<T1> -> (T1 -> F<T2>) -> F<T2>` followed by another function applied to the results `T1` and `T2`. 
 ```csharp
  public static F<T3> SelectMany<T1, T2, T3>(this F<T1> x, Func<T1, F<T2>> then, Func<T1, T2, T3> map);
 ```
 
-With a representation of `map` and `bind`, LINQ provides a convenient syntax for dealing with monads. Specifically, we can use LINQ to define monadic parsers.  
+With a representation of `map` and `bind`, LINQ provides a convenient syntax for dealing with monads. Specifically, we can use LINQ to define monadic parsers. 
+Monads essentially overload the `;` keyword and allows one to define what it means execute a sequence of functions for a given monad type. 
+For the `Maybe<T>` (also the `Optional<T>` or `Nullable<T>`) Monad, the result of each step in the sequence is checked for the presence of a value.
+
+```csharp 
+    // This LINQ expression.
+    public Maybe<int> TestLinq()
+        =>
+            from x in Foo()
+            from y in Bar()
+            select x + y;
+
+    // Gets translated to the equivalent of this.
+    public Maybe<int> Test()
+    {
+        var x = Foo() as Just<int>;
+        if (x == null)
+            return new Nothing<int>();
+    
+        var y = Bar() as Just<int>;
+        if (y == null)
+            return new Nothing<int>();
+    
+        return new Just<int>(x.Item + y.Item);
+    }    
+```
 
 ## `Result<T>`
 First, we define a class which represents the result of a parsing. Instead of relying on nullable types, using a dedicated class allows us to add more information when parsing fails. For example, when an unexpected token is encountered or when a parsing assertion fails.  The `Result<T>` class has 2 implementations, `Ok<T>` which contains a `T Value` attribute and `Fail<T>` which does not. Indeed, the `Result<T>` class also forms a monad and it comes with definitions for `Select`, `SelectMany` and `Where`, which can be used with LINQ expressions.
